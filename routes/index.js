@@ -21,14 +21,20 @@ exports.submitlink = function(req, res){
 
 exports.redirectlink = function(req, res) {
   var slug = req.route.params.slug;
-  var url = urls.filter(function(u) {
-    if (u.slug === 'slug') { return true };
+
+  var match = urls.filter(function(u) {
+    if (u.slug === slug) { return true };
   })[0];
 
-  if (url === undefined) {
-    console.log('undefined')
+  if (match === undefined) {
+    // Display a 404
+    console.log('not found')
   } else {
-    console.log(url);
+    // Check if the http was included
+    if (match.url.indexOf('//') === -1) {
+      match.url = 'http://' + match.url;
+    };
+    res.redirect(match.url);    
   }
 
   res.render('index', { title: 'URL Shortener' });
