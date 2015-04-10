@@ -7,6 +7,7 @@ var express = require('express');
 var routes = require('./routes');
 var http = require('http');
 var path = require('path');
+var stats = require('./routes/stats');
 
 var app = express();
 
@@ -28,6 +29,7 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.post('/submit-link', routes.submitlink);
+app.get('/stats', routes.stats);
 app.get('/:slug', routes.redirectlink)
 
 http.createServer(app).listen(app.get('port'), function(){
